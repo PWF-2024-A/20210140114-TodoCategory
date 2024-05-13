@@ -19,9 +19,9 @@ class UserController extends Controller
 
         $search = request('search');
         if ($search) {
-            $users = User::where(function ($query) use ($search) {
-                $query->where('name', 'like', '%'.$search.'%')
-                    ->orWhere('email', 'like', '%'.$search.'%');
+            $users = User::with('todos')->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
             })
                 ->where('id', '!=', '1')
                 ->orderBy('name')
@@ -29,7 +29,7 @@ class UserController extends Controller
                 // ->simplePaginate(10)
                 ->withQueryString();
         } else {
-            $users = User::where('id', '!=', '1')
+            $users = User::with('todos')->where('id', '!=', '1')
                 ->orderBy('name')
                 ->paginate(10);
             // ->simplePaginate(10);
@@ -89,7 +89,7 @@ class UserController extends Controller
             $user->delete();
 
             // return back()->with('success', 'Delete user successfully!');
-            return back()->with('success', $user->name.' - Delete user successfully!');
+            return back()->with('success', $user->name . ' - Delete user successfully!');
         } else {
             return redirect()->route('user.index')->with('danger', 'Delete user failed!');
         }
@@ -102,7 +102,7 @@ class UserController extends Controller
         $user->save();
 
         // return back()->with('success', 'Make admin successfully!');
-        return back()->with('success', $user->name.' - Make admin successfully!');
+        return back()->with('success', $user->name . ' - Make admin successfully!');
     }
 
     public function removeadmin(User $user)
@@ -113,7 +113,7 @@ class UserController extends Controller
             $user->save();
 
             // return back()->with('success', 'Remove admin successfully!');
-            return back()->with('success', $user->name.' - Remove admin successfully!');
+            return back()->with('success', $user->name . ' - Remove admin successfully!');
         } else {
             return redirect()->route('user.index')->with('danger', 'Remove admin failed!');
         }
