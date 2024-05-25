@@ -10,7 +10,7 @@
 
 ### Browser Mailtrap
 
-![alt text](screenshot/tugas10/browserverify.png)
+![alt text](screenshot/tugas10/browsermailtrap.png)
 
 ### Browser Dashboard
 
